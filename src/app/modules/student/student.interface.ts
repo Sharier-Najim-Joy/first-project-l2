@@ -1,6 +1,8 @@
+import { Model } from 'mongoose';
+
 export type UserName = {
   firstName: string;
-  middleName: string;
+  middleName?: string;
   lastName: string;
 };
 
@@ -22,8 +24,9 @@ export type LocalGuardian = {
 
 export type Student = {
   id: string;
+  password: string;
   name: UserName;
-  gender: 'male' | 'female';
+  gender: 'male' | 'female' | 'others';
   email: string;
   dateOfBirth: string;
   contactNo: string;
@@ -35,4 +38,21 @@ export type Student = {
   localGuardian: LocalGuardian;
   profileImg?: string;
   isActive: 'active' | 'blocked';
+  isDeleted: boolean;
 };
+
+// for creating static custom
+export interface CStudentModel extends Model<Student> {
+  isUserExists(id: string): Promise<Student | null>;
+}
+
+// for creating instance custom
+// export type StudentMethods = {
+//   isUserExists(id: string): Promise<Student | null>;
+// };
+
+// export type CStudentModel = Model<
+//   Student,
+//   Record<string, never>,
+//   StudentMethods
+// >;
